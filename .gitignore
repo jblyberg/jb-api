@@ -3,7 +3,7 @@
 /node_modules
 
 # Configuration
-.env
+/config/development.yml
 
 # Logs
 logs
