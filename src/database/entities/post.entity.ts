@@ -1,7 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
-import { PostStatus } from './post-status.enum';
-import { User } from '../auth/user.entity';
-import { Tag } from '../tags/tag.entity';
+import { PostStatus } from '../../modules/posts/post-status.enum';
+import { User } from './user.entity';
+import { Tag } from './tag.entity';
 
 @Entity('posts')
 export class Post extends BaseEntity {

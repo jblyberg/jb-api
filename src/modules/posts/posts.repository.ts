@@ -1,9 +1,9 @@
-import { Post } from './post.entity';
+import { Post } from '../../database/entities/post.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostStatus } from './post-status.enum';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
-import { User } from '../auth/user.entity';
+import { User } from '../../database/entities/user.entity';
 import { Logger, InternalServerErrorException } from '@nestjs/common';
 
 @EntityRepository(Post)
@@ -41,10 +41,10 @@ export class PostRepository extends Repository<Post> {
   }
 
   async createPost(
-    createTaskDto: CreatePostDto,
+    createPostDto: CreatePostDto,
     user: User,
   ): Promise<Post> {
-    const { title, body, tags } = createTaskDto;
+    const { title, body, tags } = createPostDto;
 
     const post = new Post();
     post.title = title;
@@ -55,7 +55,7 @@ export class PostRepository extends Repository<Post> {
     try {
       await post.save();
     } catch (error) {
-      this.logger.error(`Failed to create a task for user "${user.email}". Data: ${createTaskDto}`, error.stack);
+      this.logger.error(`Failed to create a task for user "${user.email}". Data: ${createPostDto}`, error.stack);
       throw new InternalServerErrorException();
     }
 

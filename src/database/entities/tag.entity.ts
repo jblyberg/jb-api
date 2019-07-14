@@ -1,6 +1,6 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
-import { User } from '../auth/user.entity';
-import { Post } from '../posts/post.entity';
+import { User } from './user.entity';
+import { Post } from './post.entity';
 
 @Entity('tags')
 export class Tag extends BaseEntity {

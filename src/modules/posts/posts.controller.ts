@@ -1,12 +1,15 @@
-import { Controller, Get, Post as Post_, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards, Logger } from '@nestjs/common';
+import { Controller, Get, Post as Post_, Body, Param,
+  Delete, Patch, Query, UsePipes, ValidationPipe,
+  ParseIntPipe, UseGuards, Logger,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostStatusValidationPipe } from './pipes/post-status-validation.pipe';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
-import { Post } from './post.entity';
+import { Post } from '../../database/entities/post.entity';
 import { PostStatus } from './post-status.enum';
-import { User } from '../auth/user.entity';
+import { User } from '../../database/entities/user.entity';
 import { GetUser } from '../auth/get-user.decorator';
 
 @Controller('posts')

@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
-import { PostRepository } from './post.repository';
+import { PostRepository } from './posts.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Post } from './post.entity';
+import { Post } from '../../database/entities/post.entity';
 import { PostStatus } from './post-status.enum';
-import { User } from '../auth/user.entity';
+import { User } from '../../database/entities/user.entity';
 
 @Injectable()
 export class PostsService {
@@ -35,10 +35,10 @@ export class PostsService {
   }
 
   async createPost(
-    createTaskDto: CreatePostDto,
+    createPostDto: CreatePostDto,
     user: User,
   ): Promise<Post> {
-    return this.postRepository.createPost(createTaskDto, user);
+    return this.postRepository.createPost(createPostDto, user);
   }
 
   async deletePost(
@@ -48,7 +48,7 @@ export class PostsService {
     const result = await this.postRepository.delete({ id, userId: user.id });
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Task with ID "${id}" not found`);
+      throw new NotFoundException(`Post with ID "${id}" not found`);
     }
   }
 

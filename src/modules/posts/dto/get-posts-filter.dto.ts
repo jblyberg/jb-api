@@ -1,6 +1,6 @@
 import { PostStatus } from '../post-status.enum';
 import { IsOptional, IsIn, IsNotEmpty } from 'class-validator';
-import { User } from '../../auth/user.entity';
+import { User } from '../../../database/entities/user.entity';
 
 export class GetPostsFilterDto {
   @IsOptional()

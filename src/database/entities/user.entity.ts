@@ -1,6 +1,6 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
-import { Post } from '../posts/post.entity';
+import * as argon2 from 'argon2';
+import { Post } from './post.entity';
 
 @Entity('users')
 @Unique(['email'])
@@ -23,12 +23,7 @@ export class User extends BaseEntity {
   @OneToMany(type => Post, post => post.user, { eager: true })
   posts: Post[];
 
-  salt(): string {
-    return this.password.substring(0, 29);
-  }
-
   async validatePassword(password: string): Promise<boolean> {
-    const hash = await bcrypt.hash(password, this.salt());
-    return hash === this.password;
+    return argon2.verify(this.password, password);
   }
 }

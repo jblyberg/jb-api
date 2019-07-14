@@ -1,5 +1,5 @@
-import { IsNotEmpty } from 'class-validator';
-import { Tag } from '../../tags/tag.entity';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+import { Tag } from '../../../database/entities/tag.entity';
 
 export class CreatePostDto {
 
@@ -9,7 +9,7 @@ export class CreatePostDto {
   @IsNotEmpty()
   body: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   tags: Tag[];
 
 }
