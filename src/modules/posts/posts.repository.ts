@@ -51,6 +51,7 @@ export class PostRepository extends Repository<Post> {
     post.body = body;
     post.status = PostStatus.DRAFT;
     post.user = user;
+    post.tags = tags;
 
     try {
       await post.save();
