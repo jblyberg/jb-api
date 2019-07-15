@@ -3,7 +3,6 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Logger, InternalServerErrorException } from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto'
 
-
 @EntityRepository(Tag)
 export class TagRepository extends Repository<Tag> {
   private logger = new Logger('PostRepository');
@@ -14,7 +13,7 @@ export class TagRepository extends Repository<Tag> {
 
     // Check if tag exists, if so, return existing tag
     const found = await this.findOne({ where: { name } });
-    
+
     if (found) {
       return found;
     }
@@ -32,14 +31,5 @@ export class TagRepository extends Repository<Tag> {
 
     return tag;
   }
-
-  createTags(post_tags: Tag[]): Tag[] {
-    let tags = [];
-    post_tags.forEach( (createTagDto: CreateTagDto) => {
-      tags.push(this.createTag(createTagDto));
-    });
-    return tags;
-  }
-
 
 }

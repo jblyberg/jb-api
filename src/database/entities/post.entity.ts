@@ -23,8 +23,8 @@ export class Post extends BaseEntity {
   @Column()
   userId: number;
 
-  @ManyToMany(type => Tag, tag => tag.posts)
-  @JoinTable()
+  @ManyToMany(type => Tag, tag => tag.posts, { eager: true })
+  @JoinTable({ name: 'posts_tags' })
   tags: Tag[];
-  
+
 }

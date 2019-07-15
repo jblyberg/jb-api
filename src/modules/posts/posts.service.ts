@@ -6,12 +6,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '../../database/entities/post.entity';
 import { PostStatus } from './post-status.enum';
 import { User } from '../../database/entities/user.entity';
+import { TagsService } from '../tags/tags.service';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(PostRepository)
     private postRepository: PostRepository,
+    private readonly tagService: TagsService,
   ) {}
 
   async getPosts(
@@ -38,7 +40,7 @@ export class PostsService {
     createPostDto: CreatePostDto,
     user: User,
   ): Promise<Post> {
-    return this.postRepository.createPost(createPostDto, user);
+    return this.postRepository.createPost(createPostDto, user, this.tagService);
   }
 
   async deletePost(

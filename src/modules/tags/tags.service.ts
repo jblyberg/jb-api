@@ -8,7 +8,7 @@ import { Tag } from '../../database/entities/tag.entity';
 export class TagsService {
   constructor(
     @InjectRepository(TagRepository)
-    private tagRepository: TagRepository,
+    private readonly tagRepository: TagRepository,
   ) {}
 
   async getTagById(id: number): Promise<Tag> {
@@ -32,9 +32,15 @@ export class TagsService {
   async createTag(createTagDto: CreateTagDto): Promise<Tag> {
     return this.tagRepository.createTag(createTagDto);
   }
-  
-  createTags(post_tags: Tag[]): Tag[] {
-    return this.tagRepository.createTags(post_tags);
+
+  async createTags(postTags: CreateTagDto[]): Promise<Tag[]> {
+    const tags = [];
+
+    for (const tag of postTags) {
+      tags.push(await this.createTag(tag));
+    }
+
+    return tags;
   }
 
   async deleteTag(name: string): Promise<void> {

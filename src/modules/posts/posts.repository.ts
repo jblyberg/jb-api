@@ -9,8 +9,6 @@ import { TagsService } from '../tags/tags.service';
 
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {
-  
-  private tagService: TagsService;
 
   private logger = new Logger('PostRepository');
 
@@ -47,6 +45,7 @@ export class PostRepository extends Repository<Post> {
   async createPost(
     createPostDto: CreatePostDto,
     user: User,
+    tagService: TagsService,
   ): Promise<Post> {
     const { title, body, tags } = createPostDto;
 
@@ -55,7 +54,7 @@ export class PostRepository extends Repository<Post> {
     post.body = body;
     post.status = PostStatus.DRAFT;
     post.user = user;
-    post.tags = this.tagService.createTags(tags);
+    post.tags = await tagService.createTags(tags);
 
     try {
       await post.save();
