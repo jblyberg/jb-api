@@ -16,17 +16,19 @@ export class PostRepository extends Repository<Post> {
     filterDto: GetPostsFilterDto,
     user?: User,
   ): Promise<Post[]> {
-    const { status, search } = filterDto;
+    const { status, search, tags } = filterDto;
     const query = this.createQueryBuilder('posts');
 
     query.where('1');
+
+    console.log(tags.map(tag => tag.name));
 
     if (status) {
       query.andWhere('posts.status = :status', { status });
     }
 
     if (search) {
-      query.andWhere('(posts.title LIKE :search OR posts.description LIKE :search)', { search: `%${search}%` });
+      query.andWhere('(posts.title LIKE :search OR posts.body LIKE :search)', { search: `%${search}%` });
     }
 
     if (user) {

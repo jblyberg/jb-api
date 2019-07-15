@@ -5,7 +5,7 @@ import { CreateTagDto } from './dto/create-tag.dto'
 
 @EntityRepository(Tag)
 export class TagRepository extends Repository<Tag> {
-  private logger = new Logger('PostRepository');
+  private logger = new Logger('TagRepository');
 
   async createTag(createTagDto: CreateTagDto): Promise<Tag> {
 

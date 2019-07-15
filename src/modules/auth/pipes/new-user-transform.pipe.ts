@@ -1,4 +1,4 @@
-import { PipeTransform, BadRequestException } from '@nestjs/common';
+import { PipeTransform } from '@nestjs/common';
 import { UserSignupDto } from '../dto/user-signup.dto';
 
 export class NewUserTransformPipe implements PipeTransform {
