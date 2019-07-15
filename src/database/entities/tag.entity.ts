@@ -13,8 +13,7 @@ export class Tag extends BaseEntity {
   })
   name: string;
 
-  @ManyToMany(type => Post, post => post.tags, { cascade: ['insert', 'update'] })
-  @JoinTable()
+  @ManyToMany(type => Post, post => post.tags)
   posts: Post[];
 
 }

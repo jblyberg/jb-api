@@ -5,9 +5,13 @@ import { PostStatus } from './post-status.enum';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
 import { User } from '../../database/entities/user.entity';
 import { Logger, InternalServerErrorException } from '@nestjs/common';
+import { TagsService } from '../tags/tags.service';
 
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {
+  
+  private tagService: TagsService;
+
   private logger = new Logger('PostRepository');
 
   async getPosts(
@@ -51,7 +55,7 @@ export class PostRepository extends Repository<Post> {
     post.body = body;
     post.status = PostStatus.DRAFT;
     post.user = user;
-    post.tags = tags;
+    post.tags = this.tagService.createTags(tags);
 
     try {
       await post.save();
