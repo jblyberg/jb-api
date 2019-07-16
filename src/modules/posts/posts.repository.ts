@@ -21,7 +21,9 @@ export class PostRepository extends Repository<Post> {
 
     query.where('1');
 
-    console.log(tags.map(tag => tag.name));
+    if (tags) {
+      console.log(tags.map(tag => tag.name));
+    }
 
     if (status) {
       query.andWhere('posts.status = :status', { status });

@@ -47,6 +47,9 @@ export class PostsService {
     id: number,
     user: User,
   ): Promise<void> {
+    
+    // TODO :: Delete any tags that will become orphaned if this post is deleted
+
     const result = await this.postRepository.delete({ id, userId: user.id });
 
     if (result.affected === 0) {
