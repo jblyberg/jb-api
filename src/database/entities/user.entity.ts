@@ -20,7 +20,7 @@ export class User extends BaseEntity {
   @Column({default: null})
   lastname: string;
 
-  @OneToMany(type => Post, post => post.user, { eager: true })
+  @OneToMany(type => Post, post => post.user, { eager: false })
   posts: Post[];
 
   async validatePassword(password: string): Promise<boolean> {

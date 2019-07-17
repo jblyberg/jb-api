@@ -13,7 +13,7 @@ export class PostsService {
   constructor(
     @InjectRepository(PostRepository)
     private postRepository: PostRepository,
-    private readonly tagService: TagsService,
+    private readonly tagsService: TagsService,
   ) {}
 
   async getPosts(
@@ -40,14 +40,14 @@ export class PostsService {
     createPostDto: CreatePostDto,
     user: User,
   ): Promise<Post> {
-    return this.postRepository.createPost(createPostDto, user, this.tagService);
+    return this.postRepository.createPost(createPostDto, this.tagsService, user);
   }
 
   async deletePost(
     id: number,
     user: User,
   ): Promise<void> {
-    
+
     // TODO :: Delete any tags that will become orphaned if this post is deleted
 
     const result = await this.postRepository.delete({ id, userId: user.id });

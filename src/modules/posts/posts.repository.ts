@@ -14,15 +14,21 @@ export class PostRepository extends Repository<Post> {
 
   async getPosts(
     filterDto: GetPostsFilterDto,
-    user?: User,
+    user: User,
   ): Promise<Post[]> {
     const { status, search, tags } = filterDto;
     const query = this.createQueryBuilder('posts');
 
-    query.where('1');
-
     if (tags) {
-      console.log(tags.map(tag => tag.name));
+      let postIds = [];
+
+      for (const tag of tags) {
+        const posts = await tag.posts;
+
+        postIds = postIds.concat(posts.map(post => post.id));
+      }
+
+      query.whereInIds([...new Set(postIds)]);
     }
 
     if (status) {
@@ -48,8 +54,8 @@ export class PostRepository extends Repository<Post> {
 
   async createPost(
     createPostDto: CreatePostDto,
-    user: User,
     tagService: TagsService,
+    user: User,
   ): Promise<Post> {
     const { title, body, tags } = createPostDto;
 
