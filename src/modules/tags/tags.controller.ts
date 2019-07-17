@@ -10,7 +10,7 @@ export class TagsController {
 
   @Delete('/:name')
   @UseGuards(AuthGuard())
-    deletePost(
+    deleteTag(
       @Param('name') name: string,
     ): Promise<void> {
       return this.tagsService.deleteTag(name);
