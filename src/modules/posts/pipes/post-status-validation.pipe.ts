@@ -8,6 +8,11 @@ export class PostStatusValidationPipe implements PipeTransform {
     PostStatus.PUBLISHED,
   ];
 
+  /**
+   * Checks the post status enum and transforms to uppercase
+   *
+   * @param value : string
+   */
   transform(value: any) {
     value = value.toUpperCase();
 

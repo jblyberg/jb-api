@@ -1,14 +1,23 @@
-import { Injectable, NestMiddleware, Next } from '@nestjs/common';
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Tag } from '../../../database/entities/tag.entity';
 import { TagsService } from '../../tags/tags.service';
 
 @Injectable()
 export class PostFilterMiddleware implements NestMiddleware {
 
+  private logger = new Logger('PostFilterMiddleware');
+
   constructor(
     private readonly tagsService: TagsService,
   ) {}
 
+  /**
+   * Use function required by NestJS middleware. Handles the pipeline logic.
+   *
+   * @param req : any
+   * @param res : any
+   * @param next : any
+   */
   public use(req: any, res: any, next: any) {
     if (req.query.tags) {
       const tagPromise = this.mapTags(req.query.tags);
@@ -23,6 +32,12 @@ export class PostFilterMiddleware implements NestMiddleware {
     }
   }
 
+  /**
+   * Takes tags separated by pipes from the request URL and maps them to actual Tag entities.
+   * It will quietly throw out and tags that are not in the database.
+   *
+   * @param pipedTags : string
+   */
   private async mapTags(pipedTags: string): Promise<Tag[]> {
 
     const filterTags = pipedTags.split('|');
@@ -35,7 +50,11 @@ export class PostFilterMiddleware implements NestMiddleware {
           tags.push(tagObj);
         }
       } catch (error) {
-          // Ignore tags that don't exist
+        if (error.status === 404) {
+          this.logger.debug(`Tag "${tag}" not found. Err: ${error.status}`);
+        } else {
+          this.logger.error(`Could not retrieve tag "${tag}". Err: ${error.status}`);
+        }
       }
     }
 

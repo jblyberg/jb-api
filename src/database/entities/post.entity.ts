@@ -1,12 +1,24 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column,
+  ManyToOne, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn,
+  VersionColumn, OneToMany} from 'typeorm';
 import { PostStatus } from '../../modules/posts/post-status.enum';
 import { User } from './user.entity';
 import { Tag } from './tag.entity';
+import { Comment } from './comment.entity';
 
 @Entity('posts')
 export class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn()
+  createDate: Date;
+
+  @UpdateDateColumn()
+  updateDate: Date;
+
+  @VersionColumn()
+  version: number;
 
   @Column()
   title: string;
@@ -19,6 +31,9 @@ export class Post extends BaseEntity {
 
   @ManyToOne(type => User, user => user.posts, { eager: false })
   user: User;
+
+  @OneToMany(type => Comment, comment => comment.post, { eager: false })
+  comments: Comment[];
 
   @Column()
   userId: number;
