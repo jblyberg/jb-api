@@ -10,14 +10,26 @@ export class CardRepository extends Repository<Card> {
 
   async createCard(createCardDto: CreateCardDto): Promise<Card> {
 
-    const { title } = createCardDto;
+    const { title, cardtype, callnum, cardtext, scribble1, scribble2, scribble3 } = createCardDto;
 
     const card = new Card();
 
     card.id = uuid();
-    card.title = title;
 
-    card.createImage();
+    card.title = title ? title : null;
+    card.cardtype = cardtype ? cardtype : null;
+    card.callnum = callnum ? callnum : null;
+    card.cardtext = cardtext ? cardtext : null;
+    card.scribble1 = scribble1 ? scribble1 : null;
+    card.scribble2 = scribble2 ? scribble2 : null;
+    card.scribble3 = scribble3 ? scribble3 : null;
+
+    try {
+      await card.createImage();
+    } catch (error) {
+      this.logger.error(`Failed to create card Image. Data: ${createCardDto}`, error.stack);
+      throw new InternalServerErrorException();
+    }
 
     try {
       await card.save();
