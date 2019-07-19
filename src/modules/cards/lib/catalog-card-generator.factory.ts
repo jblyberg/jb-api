@@ -16,6 +16,7 @@ export class CatalogCardGeneratorFactory {
   async createImage() {
     console.log(this.card);
 
+    const outputFilename = this.card.id + '.png';
     const imageSizeOfP = pify(sizeOf);
     const source = 'src/modules/cards/lib/cardstock/card1.png';
     const { width, height } = await imageSizeOfP(source);
@@ -33,17 +34,10 @@ export class CatalogCardGeneratorFactory {
     ctx.fillText('Arabic: اللغة العربية هي أكثر اللغات تحدثا ضمن', 10, 50);
     ctx.fillText('Korean: 모타는사라미 못하는 사람이', 10, 70);
 
-    // Draw caption overlay
-    // const overlay = await this.createCaptionOverlay({
-    //   text: 'Hello!',
-    //   width,
-    //   height,
-    // });
-    // ctx.drawImage(overlay, 0, 0);
+    canvas.createPNGStream().pipe(createWriteStream('src/modules/cards/output/' + outputFilename));
 
-    // Output to `.png` file
-    canvas.createPNGStream().pipe(createWriteStream('src/modules/cards/output/foo.png'));
+    return outputFilename;
 
   }
-
+  
 }
