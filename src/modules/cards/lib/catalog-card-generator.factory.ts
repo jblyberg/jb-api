@@ -27,6 +27,7 @@ export class CatalogCardGeneratorFactory {
     ctx.drawImage(image, 0, 0);
 
     ctx.fillStyle = '#000';
+    ctx.rotate(0.1);
     ctx.fillText('English: Some text in Impact.', 10, 10);
     ctx.fillText('Japanese: 図書館の中では、静かにする。', 10, 30);
     ctx.fillText('Arabic: اللغة العربية هي أكثر اللغات تحدثا ضمن', 10, 50);
@@ -41,7 +42,7 @@ export class CatalogCardGeneratorFactory {
     // ctx.drawImage(overlay, 0, 0);
 
     // Output to `.png` file
-    canvas.createPNGStream().pipe(createWriteStream(path.join(__dirname, 'foo.png')));
+    canvas.createPNGStream().pipe(createWriteStream('src/modules/cards/output/foo.png'));
 
   }
 
