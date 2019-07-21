@@ -39,23 +39,14 @@ export class CatalogCardGeneratorFactory {
 
     // Add card content
     this.writeTitle(ctx)
-    .writeCardType(ctx)
-    .writeCardCallnum(ctx)
-    .writeCardText(ctx)
-    .writeScribble1(ctx)
-    .writeScribble2(ctx)
-    .writeScribble3(ctx);
+      .writeCardType(ctx)
+      .writeCardCallnum(ctx)
+      .writeCardText(ctx)
+      .writeScribble1(ctx)
+      .writeScribble2(ctx)
+      .writeScribble3(ctx);
 
-    // ctx.rotate(0.05);
-    // ctx.font = '12px ' + this.card.font1;
-    // ctx.fillText('English: Some text in Font 1.', 10, 10);
-
-    // ctx.font = '12px ' + this.card.font2;
-    // ctx.fillText('English: Some text in Font 2.', 10, 30);
-
-    // ctx.font = '12px ' + this.card.font3;
-    // ctx.fillText('English: Some text in Font 3.', 10, 50);
-
+    // Save the image file
     canvas.createPNGStream().pipe(createWriteStream('src/modules/cards/output/' + outputFilename));
 
     return outputFilename;
@@ -70,11 +61,12 @@ export class CatalogCardGeneratorFactory {
   }
 
   private writeCardType(ctx) {
+    const randomAngleFloat = (Math.random() * (0.1 - 0.01) + 0.01) - .05;
     ctx.fillStyle = '#CA3433';
     ctx.font = '8pt freesansbold';
-    ctx.rotate(0.05);
+    ctx.rotate(randomAngleFloat);
     ctx.fillText(this.card.cardtype, 10, 20);
-    ctx.rotate(-0.05);
+    ctx.rotate(randomAngleFloat * -1);
     return this;
   }
 
@@ -93,20 +85,24 @@ export class CatalogCardGeneratorFactory {
   }
 
   private writeScribble1(ctx) {
-    ctx.font = '12px ' + this.card.font1;
-    ctx.fillText(this.card.scribble1, 10, 10);
+    ctx.font = '15px ' + this.card.font1;
+    ctx.rotate(-0.3);
+    ctx.fillText(this.card.scribble1, -38, 170);
+    ctx.rotate(0.3);
     return this;
   }
 
   private writeScribble2(ctx) {
     ctx.font = '12px ' + this.card.font2;
-    ctx.fillText(this.card.scribble2, 10, 10);
+    ctx.fillText(this.card.scribble2, 85, 20);
     return this;
   }
 
   private writeScribble3(ctx) {
     ctx.font = '12px ' + this.card.font3;
-    ctx.fillText(this.card.scribble3, 10, 10);
+    ctx.rotate(0.025);
+    ctx.fillText(this.card.scribble3, 203, 185);
+    ctx.rotate(-0.025);
     return this;
   }
 
