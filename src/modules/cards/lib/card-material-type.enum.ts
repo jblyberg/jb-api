@@ -1,5 +1,5 @@
 export enum CardMaterialType {
   PRINTED = 'PRINTED',
-  AUDIO = 'AUDIO',
+  AUDIO = 'PHONO',
   VIDEO = 'VIDEO',
 }
