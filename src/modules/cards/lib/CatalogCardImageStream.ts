@@ -1,7 +1,5 @@
 import { Card } from '../../../database/entities/card.entity';
 import { createCanvas, loadImage, registerFont, PNGStream } from 'canvas';
-import { readdirSync } from 'fs';
-import { shuffle } from 'lodash';
 import { Logger } from '@nestjs/common';
 import * as sizeOf from 'image-size';
 import * as pify from 'pify';
@@ -137,21 +135,6 @@ export class CatalogCardImageStream {
     // Register base fonts
     registerFont(cardBaseFontFolder + 'freesansbold.ttf', { family: 'freesansbold' });
     registerFont(cardBaseFontFolder + 'freemonobold.ttf', { family: 'freemonobold' });
-
-    // Grab hand fonts from directory
-    const handFonts = await shuffle(readdirSync(cardHandFontFolder)).slice(0, 3);
-
-    if (!this.card.font1) {
-      this.card.font1 = handFonts[0].slice(0, -4);
-    }
-
-    if (!this.card.font2) {
-      this.card.font2 = handFonts[1].slice(0, -4);
-    }
-
-    if (!this.card.font3) {
-      this.card.font3 = handFonts[2].slice(0, -4);
-    }
 
     // Register hand fonts
     registerFont(cardHandFontFolder + this.card.font1 + '.ttf', { family: this.card.font1 });
