@@ -1,8 +1,10 @@
-import { Logger, InternalServerErrorException, Injectable, Module } from '@nestjs/common';
+import { Logger, InternalServerErrorException } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { Repository, EntityRepository } from 'typeorm';
 import { Card } from '../../database/entities/card.entity';
 import { v4 as uuid } from 'uuid';
+import { CatalogCardImageStream } from './lib/CatalogCardImageStream';
+import { PNGStream } from 'canvas';
 
 @EntityRepository(Card)
 export class CardRepository extends Repository<Card> {
@@ -25,20 +27,40 @@ export class CardRepository extends Repository<Card> {
     card.scribble3 = scribble3 ? scribble3 : null;
 
     try {
-      await card.createImage();
+      await card.createProperties();
     } catch (error) {
-      this.logger.error(`Failed to create card Image. Data: ${createCardDto}`, error.stack);
+      this.logger.error(`Failed to create card properties. Data: ${createCardDto}`, error.stack);
       throw new InternalServerErrorException();
     }
 
     try {
+
       await card.save();
+
     } catch (error) {
-      this.logger.error(`Failed to create card. Data: ${createCardDto}`, error.stack);
+
+      this.logger.error(`Failed to save card. Data: ${createCardDto}`, error.stack);
       throw new InternalServerErrorException();
+
     }
 
     return card;
+  }
+
+  async createCardStream(card: Card): Promise<PNGStream> {
+
+    try {
+
+      const cardStream = new CatalogCardImageStream(card);
+      return await cardStream.createCardStream();
+
+    } catch (error) {
+
+      this.logger.error(`Failed to create card stream. Card: ${card}`, error.stack);
+      throw new InternalServerErrorException();
+
+    }
+
   }
 
 }

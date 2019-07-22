@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CardRepository } from './card.repository';
 import { Card } from '../../database/entities/card.entity';
+import { PNGStream } from 'canvas';
 
 @Injectable()
 export class CardsService {
@@ -13,6 +14,15 @@ export class CardsService {
 
   async createCard(createCardDto: CreateCardDto): Promise<Card> {
     return this.cardRepository.createCard(createCardDto);
+  }
+
+  async createCardStream(id: string): Promise<PNGStream> {
+    const card = await this.cardRepository.findOne({ where: { id } });
+
+    if (!card) {
+      throw new NotFoundException(`Card with ID "${id}" not found`);
+    }
+    return this.cardRepository.createCardStream(card);
   }
 
 }

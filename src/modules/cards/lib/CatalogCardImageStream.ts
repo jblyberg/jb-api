@@ -1,35 +1,33 @@
 import { Card } from '../../../database/entities/card.entity';
-import { createCanvas, loadImage, registerFont } from 'canvas';
-import * as sizeOf from 'image-size';
-import { createWriteStream, readdirSync } from 'fs';
-import * as pify from 'pify';
+import { createCanvas, loadImage, registerFont, PNGStream } from 'canvas';
+import { readdirSync } from 'fs';
 import { shuffle } from 'lodash';
+import { Logger } from '@nestjs/common';
+import * as sizeOf from 'image-size';
+import * as pify from 'pify';
 import * as wrap from 'word-wrap';
 
 /**
- * Generates a catalog card from a card entity
+ * Generates a catalog card image from a card entity
  */
-export class CatalogCardGeneratorFactory {
+export class CatalogCardImageStream {
 
   private card: Card;
+  private cardLibDirectory: string;
+  private pngStream: PNGStream;
+  private logger = new Logger('CatalogCardImageStream');
 
   constructor(card: Card) {
     this.card = card;
+    this.cardLibDirectory = 'src/modules/cards/lib';
   }
 
-  /**
-   * Main entrypoint to the class. Creates the card image.
-   */
-  async createImage() {
-
-    // const outputFilename = this.card.id + '.png';
-    const outputFilename = 'foo.png';
-
-    // Randomly assign card
-    const cardSource = this.assignCardSource();
-
+  async createCardStream() {
     // Assign and register fonts
     await this.registerCardFonts();
+
+    const cardStockFolder = this.cardLibDirectory + '/cardstock/card';
+    const cardSource = cardStockFolder + this.card.cardtemplate + '.png';
 
     // Create the card canvas and context
     const imageSizeOfP = pify(sizeOf);
@@ -44,21 +42,19 @@ export class CatalogCardGeneratorFactory {
     ctx.drawImage(image, 0, 0);
 
     // Add card content
-    Promise.all([
-      this.writeTitle(ctx),
-      this.writeCardType(ctx),
-      this.writeCardCallnum(ctx),
-      this.writeCardText(ctx),
-      this.writeScribble1(ctx),
-      this.writeScribble2(ctx),
-      this.writeScribble3(ctx),
-    ]).then(() => {
-      // Save the image file
-      canvas.createPNGStream().pipe(createWriteStream('src/modules/cards/output/' + outputFilename));
-    });
 
-    return outputFilename;
+    await this.writeTitle(ctx);
+    await this.writeCardType(ctx);
+    await this.writeCardCallnum(ctx);
+    await this.writeCardText(ctx);
+    await this.writeScribble1(ctx);
+    await this.writeScribble2(ctx);
+    await this.writeScribble3(ctx);
 
+    // Create the image stream
+    this.pngStream = canvas.createPNGStream();
+
+    return this.pngStream;
   }
 
   private writeTitle(ctx) {
@@ -129,33 +125,14 @@ export class CatalogCardGeneratorFactory {
   }
 
   /**
-   * Checks to see if the cardtemplate exists in the entity.
-   * If not, randomly chooses one and assigns it to the entity
-   */
-  private assignCardSource() {
-
-    const cardStockFolder = 'src/modules/cards/lib/cardstock/card';
-
-    if (this.card.cardtemplate) {
-      return cardStockFolder + this.card.cardtemplate + '.png';
-    }
-
-    const cardNumber = Math.floor(Math.random() * 4) + 1;
-    const cardSource = cardStockFolder + cardNumber + '.png';
-    this.card.cardtemplate = cardNumber;
-
-    return cardSource;
-  }
-
-  /**
    * Registers base fonts.
    * Checks to see if fonts have been assigned to scribbles.
    * If not, fonts are assigned to scribbles.
    */
   private async registerCardFonts() {
 
-    const cardBaseFontFolder = 'src/modules/cards/lib/fonts/base/';
-    const cardHandFontFolder = 'src/modules/cards/lib/fonts/hand/';
+    const cardBaseFontFolder = this.cardLibDirectory + '/fonts/base/';
+    const cardHandFontFolder = this.cardLibDirectory + '/fonts/hand/';
 
     // Register base fonts
     registerFont(cardBaseFontFolder + 'freesansbold.ttf', { family: 'freesansbold' });

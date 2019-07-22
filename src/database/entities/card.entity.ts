@@ -1,9 +1,11 @@
 import { BaseEntity, Entity, Column, PrimaryColumn, CreateDateColumn } from 'typeorm';
-import { CatalogCardGeneratorFactory } from '../../modules/cards/lib/catalog-card-generator.factory';
-import { CardMaterialType } from '../../modules/cards/lib/card-material-type.enum';
+import { CatalogCardProperties } from '../../modules/cards/lib/CatalogCardProperties';
+import { CardMaterialType } from '../../modules/cards/card-material-type.enum';
 
 @Entity('cards')
 export class Card extends BaseEntity {
+
+  private cardUrl: string;
 
   @PrimaryColumn()
   id: string;
@@ -45,12 +47,12 @@ export class Card extends BaseEntity {
   @Column({ nullable: true })
   font3: string;
 
-  createImage() {
-    const imageFactory = new CatalogCardGeneratorFactory(this);
-    imageFactory.createImage().then((filename) => {
-      this.filename = filename;
+  createProperties() {
+    const cardProperties = new CatalogCardProperties(this);
+    cardProperties.createProperties().then((completed) => {
+      this.generated = completed;
     });
   }
-  filename: string;
+  generated: boolean;
 
 }

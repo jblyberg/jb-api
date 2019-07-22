@@ -1,5 +1,5 @@
 import { PipeTransform, BadRequestException } from '@nestjs/common';
-import { CardMaterialType } from '../lib/card-material-type.enum';
+import { CardMaterialType } from '../card-material-type.enum';
 import { CreateCardDto } from '../dto/create-card.dto';
 
 export class CardMaterialTypeValidationPipe implements PipeTransform {

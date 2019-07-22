@@ -1,4 +1,4 @@
-import { CardMaterialType } from '../lib/card-material-type.enum';
+import { CardMaterialType } from '../card-material-type.enum';
 
 export class CreateCardDto {
 
