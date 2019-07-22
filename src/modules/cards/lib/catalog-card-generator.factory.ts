@@ -44,16 +44,18 @@ export class CatalogCardGeneratorFactory {
     ctx.drawImage(image, 0, 0);
 
     // Add card content
-    this.writeTitle(ctx)
-      .writeCardType(ctx)
-      .writeCardCallnum(ctx)
-      .writeCardText(ctx)
-      .writeScribble1(ctx)
-      .writeScribble2(ctx)
-      .writeScribble3(ctx);
-
-    // Save the image file
-    canvas.createPNGStream().pipe(createWriteStream('src/modules/cards/output/' + outputFilename));
+    Promise.all([
+      this.writeTitle(ctx),
+      this.writeCardType(ctx),
+      this.writeCardCallnum(ctx),
+      this.writeCardText(ctx),
+      this.writeScribble1(ctx),
+      this.writeScribble2(ctx),
+      this.writeScribble3(ctx),
+    ]).then(() => {
+      // Save the image file
+      canvas.createPNGStream().pipe(createWriteStream('src/modules/cards/output/' + outputFilename));
+    });
 
     return outputFilename;
 
@@ -160,7 +162,7 @@ export class CatalogCardGeneratorFactory {
     registerFont(cardBaseFontFolder + 'freemonobold.ttf', { family: 'freemonobold' });
 
     // Grab hand fonts from directory
-    const handFonts = shuffle(readdirSync(cardHandFontFolder)).slice(0, 3);
+    const handFonts = await shuffle(readdirSync(cardHandFontFolder)).slice(0, 3);
 
     if (!this.card.font1) {
       this.card.font1 = handFonts[0].slice(0, -4);
