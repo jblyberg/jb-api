@@ -5,7 +5,6 @@ import { Card } from '../../database/entities/card.entity';
 import { CardMaterialTypeValidationPipe } from './pipes/card-material-validation.pipe';
 // tslint:disable-next-line: no-implicit-dependencies
 import { Response } from 'express';
-import { createReadStream } from 'fs';
 
 @Controller('cards')
 export class CardsController {
