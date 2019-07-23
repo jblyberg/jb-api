@@ -1,12 +1,10 @@
 import { Card } from '../../../database/entities/card.entity';
 import { readdirSync } from 'fs';
 import { shuffle } from 'lodash';
-import { Logger, InternalServerErrorException } from '@nestjs/common';
 
 export class CatalogCardProperties {
   private card: Card;
   private cardLibDirectory: string;
-  private logger = new Logger('CatalogCardProperties');
 
   constructor(card: Card) {
     this.card = card;

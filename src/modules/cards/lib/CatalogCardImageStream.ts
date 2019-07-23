@@ -34,7 +34,7 @@ export class CatalogCardImageStream {
     // Create the image canvas
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
-
+    
     // Draw carstock image onto context
     const image = await loadImage(cardSource);
     ctx.drawImage(image, 0, 0);
@@ -50,7 +50,13 @@ export class CatalogCardImageStream {
     await this.writeScribble3(ctx);
 
     // Create the image stream
-    this.pngStream = canvas.createPNGStream();
+    this.pngStream = canvas.createPNGStream({
+      compressionLevel: 6,
+      filters: canvas.PNG_ALL_FILTERS,
+      palette: undefined,
+      backgroundIndex: 0, 
+      resolution: 96,
+    });
 
     return this.pngStream;
   }
@@ -58,7 +64,7 @@ export class CatalogCardImageStream {
   private writeTitle(ctx) {
     if (this.card.title) {
       ctx.fillStyle = '#000';
-      ctx.font = '8pt freemonobold';
+      ctx.font = '11px freemonobold';
       ctx.fillText(this.card.title, 93, 30);
     }
     return this;
@@ -88,7 +94,7 @@ export class CatalogCardImageStream {
   private writeCardText(ctx) {
     if (this.card.cardtext) {
       ctx.fillStyle = '#000';
-      ctx.font = '8pt freemonobold';
+      ctx.font = '11px freemonobold';
       ctx.fillText(wrap(this.card.cardtext, {width: 38, indent: ''}), 93, 50);
     }
     return this;
