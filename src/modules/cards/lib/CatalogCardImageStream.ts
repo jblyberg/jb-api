@@ -20,7 +20,7 @@ export class CatalogCardImageStream {
     this.cardLibDirectory = 'src/modules/cards/lib';
   }
 
-  async createCardStream() {
+  async createCardStream(): Promise<PNGStream> {
     // Assign and register fonts
     await this.registerCardFonts();
 

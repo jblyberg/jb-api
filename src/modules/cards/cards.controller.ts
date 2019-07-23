@@ -1,4 +1,4 @@
-import { Controller, Post, Logger, Body, Get, HttpCode, Header, HttpStatus, Res, Param } from '@nestjs/common';
+import { Controller, Post, Logger, Body, Get, Header, Res, Param } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { Card } from '../../database/entities/card.entity';
@@ -21,7 +21,6 @@ export class CardsController {
   }
 
   @Get('card/:id')
-  @HttpCode(HttpStatus.OK)
   @Header('Content-Type', 'image/png')
   async streamCard(
     @Param('id') id: string,
