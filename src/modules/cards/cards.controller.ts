@@ -27,12 +27,12 @@ export class CardsController {
     @Res() response: Response,
   ) {
 
+    const cardStream = await this.cardsService.createCardStream(id);
+
     response.setHeader(
       'Content-Disposition',
       'attachment; filename=card-' + id + '.png',
     );
-
-    const cardStream = await this.cardsService.createCardStream(id);
 
     cardStream.pipe(response);
 
