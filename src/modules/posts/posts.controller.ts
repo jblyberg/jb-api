@@ -1,6 +1,17 @@
-import { Controller, Get, Post as Post_, Body, Param,
-  Delete, Patch, Query, UsePipes, ValidationPipe,
-  ParseIntPipe, UseGuards, Logger,
+import {
+  Controller,
+  Get,
+  Post as Post_,
+  Body,
+  Param,
+  Delete,
+  Patch,
+  Query,
+  UsePipes,
+  ValidationPipe,
+  ParseIntPipe,
+  UseGuards,
+  Logger,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PostsService } from './posts.service';
@@ -20,37 +31,26 @@ export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @Get()
-  getPosts(
-    @Query(ValidationPipe) filterDto: GetPostsFilterDto,
-    @GetUser() user: User,
-  ): Promise<Post[]> {
+  getPosts(@Query(ValidationPipe) filterDto: GetPostsFilterDto, @GetUser() user: User): Promise<Post[]> {
     this.logger.verbose(`User "${user.email}" retrieving all posts. Filters: ${JSON.stringify(filterDto)}`);
     return this.postsService.getPosts(filterDto, user);
   }
 
   @Get('/:id')
-  getPostById(
-    @Param('id', ParseIntPipe) id: number,
-    @GetUser() user: User,
-  ): Promise<Post> {
+  getPostById(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<Post> {
     return this.postsService.getPostById(id, user);
   }
 
+  // Underscore is used because of namespace collision with the Post entity
   @Post_()
   @UsePipes(ValidationPipe)
-  createPost(
-    @Body() createPostDto: CreatePostDto,
-    @GetUser() user: User,
-  ): Promise<Post> {
+  createPost(@Body() createPostDto: CreatePostDto, @GetUser() user: User): Promise<Post> {
     this.logger.verbose(`User "${user.email}" creating a new post. Data: ${JSON.stringify(createPostDto)}`);
     return this.postsService.createPost(createPostDto, user);
   }
 
   @Delete('/:id')
-  deletePost(
-    @Param('id', ParseIntPipe) id: number,
-    @GetUser() user: User,
-  ): Promise<void> {
+  deletePost(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<void> {
     return this.postsService.deletePost(id, user);
   }
 
@@ -58,7 +58,7 @@ export class PostsController {
   updatePostStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body('status', PostStatusValidationPipe) status: PostStatus,
-    @GetUser() user: User,
+    @GetUser() user: User
   ): Promise<Post> {
     return this.postsService.updatePostStatus(id, status, user);
   }
