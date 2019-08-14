@@ -13,29 +13,23 @@ export class CardsController {
   constructor(private cardsService: CardsService) {}
 
   @Post('/create')
-  createCard(
-    @Body(CardMaterialTypeValidationPipe) createCardDto: CreateCardDto,
-  ): Promise<Card> {
+  createCard(@Body(CardMaterialTypeValidationPipe) createCardDto: CreateCardDto): Promise<Card> {
     this.logger.verbose(`Creating a new card. Data: ${JSON.stringify(createCardDto)}`);
     return this.cardsService.createCard(createCardDto);
   }
 
-  @Get('card/:id')
-  @Header('Content-Type', 'image/png')
-  async streamCard(
-    @Param('id') id: string,
-    @Res() response: Response,
-  ) {
-
-    const cardStream = await this.cardsService.createCardStream(id);
-
-    response.setHeader(
-      'Content-Disposition',
-      'attachment; filename=card-' + id + '.png',
-    );
-
-    cardStream.pipe(response);
-
+  @Get('/:id')
+  getCardById(@Param('id') id: number): Promise<Card> {
+    return this.cardsService.getCardById(id);
   }
 
+  @Get('card/:id')
+  @Header('Content-Type', 'image/png')
+  async streamCard(@Param('id') id: string, @Res() response: Response) {
+    const cardStream = await this.cardsService.createCardStream(id);
+
+    response.setHeader('Content-Disposition', 'attachment; filename=card-' + id + '.png');
+
+    cardStream.pipe(response);
+  }
 }

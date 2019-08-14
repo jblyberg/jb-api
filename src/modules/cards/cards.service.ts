@@ -9,11 +9,21 @@ import { PNGStream } from 'canvas';
 export class CardsService {
   constructor(
     @InjectRepository(CardRepository)
-    private readonly cardRepository: CardRepository,
+    private readonly cardRepository: CardRepository
   ) {}
 
   async createCard(createCardDto: CreateCardDto): Promise<Card> {
     return this.cardRepository.createCard(createCardDto);
+  }
+
+  async getCardById(id: number): Promise<Card> {
+    const card = await this.cardRepository.findOne({ where: { id } });
+
+    if (!card) {
+      throw new NotFoundException(`Card with ID "${id}" not found`);
+    }
+
+    return card;
   }
 
   async createCardStream(id: string): Promise<PNGStream> {
@@ -24,5 +34,4 @@ export class CardsService {
     }
     return this.cardRepository.createCardStream(card);
   }
-
 }
