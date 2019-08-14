@@ -34,7 +34,7 @@ export class CatalogCardImageStream {
     // Create the image canvas
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
-    
+
     // Draw carstock image onto context
     const image = await loadImage(cardSource);
     ctx.drawImage(image, 0, 0);
@@ -54,7 +54,7 @@ export class CatalogCardImageStream {
       compressionLevel: 6,
       filters: canvas.PNG_ALL_FILTERS,
       palette: undefined,
-      backgroundIndex: 0, 
+      backgroundIndex: 0,
       resolution: 96,
     });
 

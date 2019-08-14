@@ -1,5 +1,15 @@
 server:
-  origin: http://nestjs-task-management-frontend.s3-website-eu-west-1.amazonaws.com
+  origin: ['blyberg.net']
 
 db:
+  host: ['localhost']
+  username: 'dbusername'
+  password: 'dbpassword'
   synchronize: false
+
+jwt:
+  secret: 'jwtsecret'
+
+nodemailer:
+  user: 'someone@somewhere.net'
+  password: 'emailpassword'

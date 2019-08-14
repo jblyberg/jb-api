@@ -14,10 +14,10 @@ export class ContactController {
       disableErrorMessages: true,
     })
   )
-  createContactMessage(@Body() contactMessageDto: ContactMessageDto) {
+  createContactMessage(@Body() contactMessageDto: ContactMessageDto): void {
     this.logger.verbose(
       `User "${contactMessageDto.email}" sending a contact message. Data: ${JSON.stringify(contactMessageDto)}`
     );
-    return this.contactService.createContactMessage(contactMessageDto);
+    this.contactService.createContactMessage(contactMessageDto);
   }
 }

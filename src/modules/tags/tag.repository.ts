@@ -1,7 +1,7 @@
 import { Tag } from '../../database/entities/tag.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { Logger, InternalServerErrorException } from '@nestjs/common';
-import { CreateTagDto } from './dto/create-tag.dto'
+import { CreateTagDto } from './dto/create-tag.dto';
 
 @EntityRepository(Tag)
 export class TagRepository extends Repository<Tag> {

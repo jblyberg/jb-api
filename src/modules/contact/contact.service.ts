@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { ContactMessageDto } from './dto/contact-message.dto';
-import * as Mailgun from 'mailgun-js';
+import * as NodeMailer from 'nodemailer';
+import * as config from 'config';
 
 @Injectable()
 export class ContactService {
-  async createContactMessage(contactMessageDto: ContactMessageDto) {
-    // Do mailgun stuff
-    const api_key = '';
-    const domain = '';
-    const ConstructorParams = { apiKey: api_key, domain: domain };
+  private logger = new Logger('ContactService');
 
-    const mailgun = new Mailgun(ConstructorParams);
+  createContactMessage(contactMessageDto: ContactMessageDto): void {
+    const mailerConfig = config.get('nodemailer');
 
-    const data = {
-      from: `${contactMessageDto.name} ${contactMessageDto.email}`,
+    const transporter = NodeMailer.createTransport({
+      service: mailerConfig.service,
+      auth: {
+        user: mailerConfig.user,
+        pass: mailerConfig.password,
+      },
+    });
+
+    const mailOptions = {
+      from: 'Blyberg.net Website',
       to: 'john@blyberg.net',
-      subject: 'Hello, testing!',
-      text: 'Testing some Mailgun awesomness!',
+      subject: 'New website contact message: ' + contactMessageDto.subject,
+      html: `
+      <h3>Website message from ${contactMessageDto.name} (${contactMessageDto.email})</h3>
+      <p>${contactMessageDto.message}</p>
+      `,
     };
-    mailgun.messages().send(data, (error, body) => {
-      console.log(body);
-      return 'Message sent';
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        this.logger.error(`Failed to send message. Error: ${error.message}`);
+      } else {
+        this.logger.verbose(info);
+      }
     });
   }
 }

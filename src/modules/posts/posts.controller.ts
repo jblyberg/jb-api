@@ -58,7 +58,7 @@ export class PostsController {
   updatePostStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body('status', PostStatusValidationPipe) status: PostStatus,
-    @GetUser() user: User
+    @GetUser() user: User,
   ): Promise<Post> {
     return this.postsService.updatePostStatus(id, status, user);
   }
