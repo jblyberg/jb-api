@@ -4,6 +4,7 @@
 
 # Configuration
 /config/development.yml
+/config/production.yml
 
 # Logs
 logs
