@@ -15,9 +15,9 @@ async function bootstrap() {
     logger.log(`Accepting requests from origin "${serverConfig.origin}"`);
   }
 
-  const ip = serverConfig.port ? serverConfig.port : null;
+  const ip = process.env.IP || serverConfig.ip;
   const port = process.env.PORT || serverConfig.port;
   await app.listen(port, ip);
-  logger.log(`Application listening on port ${port}`);
+  logger.log(`Application listening on ${ip ? ip : '*'}:${port}`);
 }
 bootstrap();
