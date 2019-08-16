@@ -8,11 +8,23 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
 
+  const corsOptionsDelegate: any = (req, callback) => {
+    let corsOptions: object;
+
+    // tslint:disable-next-line: prefer-conditional-expression
+    if (serverConfig.origin.indexOf(req.header('Origin')) !== -1) {
+      corsOptions = { origin: true };
+    } else {
+      corsOptions = { origin: false };
+    }
+
+    callback(null, corsOptions);
+  };
+
   if (process.env.NODE_ENV === 'development') {
     app.enableCors();
   } else {
-    app.enableCors({ origin: serverConfig.origin });
-    logger.log(`Accepting requests from origin "${serverConfig.origin}"`);
+    app.enableCors(corsOptionsDelegate);
   }
 
   const ip = process.env.IP || serverConfig.ip;
@@ -21,4 +33,3 @@ async function bootstrap() {
   logger.log(`Application listening on ${ip ? ip : '*'}:${port}`);
 }
 bootstrap();
-
