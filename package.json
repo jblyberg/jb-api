@@ -5,7 +5,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run copy-assets && tsc -p tsconfig.build.json",
+    "copy-assets": "cp -rv src/modules/cards/lib/fonts dist/modules/cards/lib; cp -rv src/modules/cards/lib/cardstock dist/modules/cards/lib",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",

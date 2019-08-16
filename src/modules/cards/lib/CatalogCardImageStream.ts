@@ -9,7 +9,6 @@ import * as wrap from 'word-wrap';
  * Generates a catalog card image from a card entity
  */
 export class CatalogCardImageStream {
-
   private card: Card;
   private cardLibDirectory: string;
   private pngStream: PNGStream;
@@ -17,7 +16,7 @@ export class CatalogCardImageStream {
 
   constructor(card: Card) {
     this.card = card;
-    this.cardLibDirectory = 'src/modules/cards/lib';
+    this.cardLibDirectory = __dirname;
   }
 
   async createCardStream(): Promise<PNGStream> {
@@ -72,7 +71,7 @@ export class CatalogCardImageStream {
 
   private writeCardType(ctx) {
     if (this.card.cardtype) {
-      const randomAngleFloat = (Math.random() * (0.1 - 0.01) + 0.01) - .05;
+      const randomAngleFloat = Math.random() * (0.1 - 0.01) + 0.01 - 0.05;
       ctx.fillStyle = '#CA3433';
       ctx.font = '8pt freesansbold';
       ctx.rotate(randomAngleFloat);
@@ -95,7 +94,7 @@ export class CatalogCardImageStream {
     if (this.card.cardtext) {
       ctx.fillStyle = '#000';
       ctx.font = '11px freemonobold';
-      ctx.fillText(wrap(this.card.cardtext, {width: 38, indent: ''}), 93, 50);
+      ctx.fillText(wrap(this.card.cardtext, { width: 38, indent: '' }), 93, 50);
     }
     return this;
   }
@@ -134,7 +133,6 @@ export class CatalogCardImageStream {
    * If not, fonts are assigned to scribbles.
    */
   private async registerCardFonts() {
-
     const cardBaseFontFolder = this.cardLibDirectory + '/fonts/base/';
     const cardHandFontFolder = this.cardLibDirectory + '/fonts/hand/';
 
@@ -146,7 +144,5 @@ export class CatalogCardImageStream {
     registerFont(cardHandFontFolder + this.card.font1 + '.ttf', { family: this.card.font1 });
     registerFont(cardHandFontFolder + this.card.font2 + '.ttf', { family: this.card.font2 });
     registerFont(cardHandFontFolder + this.card.font3 + '.ttf', { family: this.card.font3 });
-
   }
-
 }
