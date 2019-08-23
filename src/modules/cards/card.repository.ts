@@ -11,7 +11,6 @@ export class CardRepository extends Repository<Card> {
   private logger = new Logger('CardRepository');
 
   async createCard(createCardDto: CreateCardDto): Promise<Card> {
-
     const { title, cardtype, callnum, cardtext, scribble1, scribble2, scribble3 } = createCardDto;
 
     const card = new Card();
@@ -34,33 +33,22 @@ export class CardRepository extends Repository<Card> {
     }
 
     try {
-
       await card.save();
-
     } catch (error) {
-
       this.logger.error(`Failed to save card. Data: ${createCardDto}`, error.stack);
       throw new InternalServerErrorException();
-
     }
 
     return card;
   }
 
   async createCardStream(card: Card): Promise<PNGStream> {
-
     try {
-
       const cardStream = new CatalogCardImageStream(card);
       return await cardStream.createCardStream();
-
     } catch (error) {
-
       this.logger.error(`Failed to create card stream. Card: ${card}`, error.stack);
       throw new InternalServerErrorException();
-
     }
-
   }
-
 }

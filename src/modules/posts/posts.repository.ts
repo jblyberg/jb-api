@@ -9,13 +9,9 @@ import { TagsService } from '../tags/tags.service';
 
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {
-
   private logger = new Logger('PostRepository');
 
-  async getPosts(
-    filterDto: GetPostsFilterDto,
-    user: User,
-  ): Promise<Post[]> {
+  async getPosts(filterDto: GetPostsFilterDto, user: User): Promise<Post[]> {
     const { status, search, tags } = filterDto;
     const query = this.createQueryBuilder('posts');
 
@@ -47,16 +43,15 @@ export class PostRepository extends Repository<Post> {
       const posts = await query.getMany();
       return posts;
     } catch (error) {
-      this.logger.error(`Failed to get posts for user "${user.email}". Filters: ${JSON.stringify(filterDto)}`, error.stack);
+      this.logger.error(
+        `Failed to get posts for user "${user.email}". Filters: ${JSON.stringify(filterDto)}`,
+        error.stack,
+      );
       throw new InternalServerErrorException();
     }
   }
 
-  async createPost(
-    createPostDto: CreatePostDto,
-    tagService: TagsService,
-    user: User,
-  ): Promise<Post> {
+  async createPost(createPostDto: CreatePostDto, tagService: TagsService, user: User): Promise<Post> {
     const { title, body, tags } = createPostDto;
 
     const post = new Post();

@@ -8,7 +8,6 @@ export class TagRepository extends Repository<Tag> {
   private logger = new Logger('TagRepository');
 
   async createTag(createTagDto: CreateTagDto): Promise<Tag> {
-
     const { name } = createTagDto;
 
     // Check if tag exists, if so, return existing tag
@@ -31,5 +30,4 @@ export class TagRepository extends Repository<Tag> {
 
     return tag;
   }
-
 }

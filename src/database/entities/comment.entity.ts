@@ -1,6 +1,13 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column,
-  ManyToOne, CreateDateColumn, UpdateDateColumn,
-  VersionColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  VersionColumn,
+} from 'typeorm';
 import { Post } from './post.entity';
 
 @Entity('comments')
@@ -22,5 +29,4 @@ export class Comment extends BaseEntity {
 
   @ManyToOne(type => Post, post => post.comments, { eager: false })
   post: Post;
-
 }

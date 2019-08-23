@@ -2,7 +2,6 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Tag } from '../../../database/entities/tag.entity';
 
 export class CreatePostDto {
-
   @IsNotEmpty()
   title: string;
 
@@ -11,5 +10,4 @@ export class CreatePostDto {
 
   @IsOptional()
   tags: Tag[];
-
 }

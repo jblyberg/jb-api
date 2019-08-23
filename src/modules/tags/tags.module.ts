@@ -6,10 +6,7 @@ import { TagsService } from './tags.service';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TagRepository]),
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forFeature([TagRepository]), AuthModule],
   controllers: [TagsController],
   providers: [TagsService],
   exports: [TagsService],

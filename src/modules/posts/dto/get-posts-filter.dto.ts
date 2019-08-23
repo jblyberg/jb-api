@@ -18,5 +18,4 @@ export class GetPostsFilterDto {
 
   @IsOptional()
   tags: Tag[];
-
 }

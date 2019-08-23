@@ -6,14 +6,10 @@ import { NewUserTransformPipe } from './pipes/new-user-transform.pipe';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(
-    @Body(ValidationPipe, NewUserTransformPipe) userSignupDto: UserSignupDto,
-    ): Promise<void> {
+  signUp(@Body(ValidationPipe, NewUserTransformPipe) userSignupDto: UserSignupDto): Promise<void> {
     return this.authService.signUp(userSignupDto);
   }
 

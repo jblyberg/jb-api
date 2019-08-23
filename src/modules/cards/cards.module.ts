@@ -5,9 +5,7 @@ import { CardRepository } from './card.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([CardRepository]),
-  ],
+  imports: [TypeOrmModule.forFeature([CardRepository])],
   controllers: [CardsController],
   providers: [CardsService],
 })

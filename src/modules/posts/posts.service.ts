@@ -16,17 +16,11 @@ export class PostsService {
     private readonly tagsService: TagsService,
   ) {}
 
-  async getPosts(
-    filterDto: GetPostsFilterDto,
-    user: User,
-  ): Promise<Post[]> {
+  async getPosts(filterDto: GetPostsFilterDto, user: User): Promise<Post[]> {
     return this.postRepository.getPosts(filterDto, user);
   }
 
-  async getPostById(
-    id: number,
-    user: User,
-  ): Promise<Post> {
+  async getPostById(id: number, user: User): Promise<Post> {
     const found = await this.postRepository.findOne({ where: { id, userId: user.id } });
 
     if (!found) {
@@ -36,18 +30,11 @@ export class PostsService {
     return found;
   }
 
-  async createPost(
-    createPostDto: CreatePostDto,
-    user: User,
-  ): Promise<Post> {
+  async createPost(createPostDto: CreatePostDto, user: User): Promise<Post> {
     return this.postRepository.createPost(createPostDto, this.tagsService, user);
   }
 
-  async deletePost(
-    id: number,
-    user: User,
-  ): Promise<void> {
-
+  async deletePost(id: number, user: User): Promise<void> {
     // TODO :: Delete any tags that will become orphaned if this post is deleted
 
     const result = await this.postRepository.delete({ id, userId: user.id });
@@ -57,11 +44,7 @@ export class PostsService {
     }
   }
 
-  async updatePostStatus(
-    id: number,
-    status: PostStatus,
-    user: User,
-  ): Promise<Post> {
+  async updatePostStatus(id: number, status: PostStatus, user: User): Promise<Post> {
     const post = await this.getPostById(id, user);
     post.status = status;
     await post.save();

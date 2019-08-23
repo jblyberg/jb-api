@@ -15,7 +15,6 @@ export class CatalogCardProperties {
    * Builds out a new Card.
    */
   async createProperties(): Promise<boolean> {
-
     let assigned: boolean = false;
 
     // Assign fandom card and fonts
@@ -24,7 +23,6 @@ export class CatalogCardProperties {
     assigned = true;
 
     return assigned;
-
   }
 
   /**
@@ -32,7 +30,6 @@ export class CatalogCardProperties {
    * If not, randomly chooses one and assigns it to the entity
    */
   private async assignCardSource() {
-
     const cardNumber = Math.floor(Math.random() * 4) + 1;
     this.card.cardtemplate = cardNumber;
 
@@ -45,7 +42,6 @@ export class CatalogCardProperties {
    * If not, fonts are assigned to scribbles.
    */
   private async assignCardFonts() {
-
     const cardHandFontFolder = this.cardLibDirectory + '/fonts/hand/';
 
     // Grab hand fonts from directory and randomize
@@ -57,7 +53,5 @@ export class CatalogCardProperties {
     this.card.font3 = handFonts[2].slice(0, -4);
 
     return this;
-
   }
-
 }

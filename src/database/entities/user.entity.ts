@@ -14,10 +14,10 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({default: null})
+  @Column({ default: null })
   firstname: string;
 
-  @Column({default: null})
+  @Column({ default: null })
   lastname: string;
 
   @OneToMany(type => Post, post => post.user, { eager: false })

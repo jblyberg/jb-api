@@ -4,7 +4,6 @@ import { CardMaterialType } from '../../modules/cards/card-material-type.enum';
 
 @Entity('cards')
 export class Card extends BaseEntity {
-
   private cardUrl: string;
 
   @PrimaryColumn()
@@ -49,10 +48,9 @@ export class Card extends BaseEntity {
 
   createProperties() {
     const cardProperties = new CatalogCardProperties(this);
-    cardProperties.createProperties().then((completed) => {
+    cardProperties.createProperties().then(completed => {
       this.generated = completed;
     });
   }
   generated: boolean;
-
 }

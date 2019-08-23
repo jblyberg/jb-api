@@ -8,7 +8,6 @@ export class CommentRepository extends Repository<Comment> {
   private logger = new Logger('CommentRepository');
 
   async createComment(createCommentDto: CreateCommentDto): Promise<Comment> {
-
     // const { name, stuff, etc } = createCommentDto;
 
     // Comment stuff
@@ -23,5 +22,4 @@ export class CommentRepository extends Repository<Comment> {
 
     return comment;
   }
-
 }

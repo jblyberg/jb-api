@@ -2,11 +2,7 @@ import { PipeTransform, BadRequestException } from '@nestjs/common';
 import { PostStatus } from '../post-status.enum';
 
 export class PostStatusValidationPipe implements PipeTransform {
-  readonly allowedStatuses = [
-    PostStatus.DRAFT,
-    PostStatus.UNPUBLISHED,
-    PostStatus.PUBLISHED,
-  ];
+  readonly allowedStatuses = [PostStatus.DRAFT, PostStatus.UNPUBLISHED, PostStatus.PUBLISHED];
 
   /**
    * Checks the post status enum and transforms to uppercase

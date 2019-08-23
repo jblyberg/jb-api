@@ -50,5 +50,4 @@ export class TagsService {
       throw new NotFoundException(`Tag with name "${name}" not found`);
     }
   }
-
 }

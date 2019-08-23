@@ -4,12 +4,9 @@ import { TagsService } from '../../tags/tags.service';
 
 @Injectable()
 export class PostFilterMiddleware implements NestMiddleware {
-
   private logger = new Logger('PostFilterMiddleware');
 
-  constructor(
-    private readonly tagsService: TagsService,
-  ) {}
+  constructor(private readonly tagsService: TagsService) {}
 
   /**
    * Use function required by NestJS middleware. Handles the pipeline logic.
@@ -22,11 +19,10 @@ export class PostFilterMiddleware implements NestMiddleware {
     if (req.query.tags) {
       const tagPromise = this.mapTags(req.query.tags);
 
-      tagPromise.then((tags) => {
+      tagPromise.then(tags => {
         req.query.tags = tags;
         next();
       });
-
     } else {
       next();
     }
@@ -39,7 +35,6 @@ export class PostFilterMiddleware implements NestMiddleware {
    * @param pipedTags : string
    */
   private async mapTags(pipedTags: string): Promise<Tag[]> {
-
     const filterTags = pipedTags.split('|');
     const tags: Tag[] = [];
 
@@ -58,9 +53,10 @@ export class PostFilterMiddleware implements NestMiddleware {
       }
     }
 
-    if (tags.length === 0) { return null; }
+    if (tags.length === 0) {
+      return null;
+    }
 
     return tags;
   }
-
 }

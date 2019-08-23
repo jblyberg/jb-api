@@ -1,6 +1,16 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column,
-  ManyToOne, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn,
-  VersionColumn, OneToMany} from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
+  VersionColumn,
+  OneToMany,
+} from 'typeorm';
 import { PostStatus } from '../../modules/posts/post-status.enum';
 import { User } from './user.entity';
 import { Tag } from './tag.entity';
@@ -41,5 +51,4 @@ export class Post extends BaseEntity {
   @ManyToMany(type => Tag, tag => tag.posts, { eager: true })
   @JoinTable({ name: 'posts_tags' })
   tags: Tag[];
-
 }

@@ -12,11 +12,11 @@ export class ContactController {
   @UsePipes(
     new ValidationPipe({
       disableErrorMessages: true,
-    })
+    }),
   )
   createContactMessage(@Body() contactMessageDto: ContactMessageDto): void {
     this.logger.verbose(
-      `User "${contactMessageDto.email}" sending a contact message. Data: ${JSON.stringify(contactMessageDto)}`
+      `User "${contactMessageDto.email}" sending a contact message. Data: ${JSON.stringify(contactMessageDto)}`,
     );
     this.contactService.createContactMessage(contactMessageDto);
   }

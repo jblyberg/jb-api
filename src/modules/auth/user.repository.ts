@@ -19,7 +19,8 @@ export class UserRepository extends Repository<User> {
     try {
       await user.save();
     } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY') { // duplicate email
+      if (error.code === 'ER_DUP_ENTRY') {
+        // duplicate email
         throw new ConflictException('email already exists');
       } else {
         throw new InternalServerErrorException();
@@ -33,7 +34,7 @@ export class UserRepository extends Repository<User> {
 
     const user = await this.findOne({ email });
 
-    if (user && await user.validatePassword(password)) {
+    if (user && (await user.validatePassword(password))) {
       return user.email;
     } else {
       return null;

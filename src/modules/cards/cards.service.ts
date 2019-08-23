@@ -9,7 +9,7 @@ import { PNGStream } from 'canvas';
 export class CardsService {
   constructor(
     @InjectRepository(CardRepository)
-    private readonly cardRepository: CardRepository
+    private readonly cardRepository: CardRepository,
   ) {}
 
   async createCard(createCardDto: CreateCardDto): Promise<Card> {

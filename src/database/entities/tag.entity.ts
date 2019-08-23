@@ -14,5 +14,4 @@ export class Tag extends BaseEntity {
 
   @ManyToMany(type => Post, post => post.tags)
   posts: Promise<Post[]>;
-
 }
