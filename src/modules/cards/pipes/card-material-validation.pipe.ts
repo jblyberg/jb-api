@@ -3,11 +3,7 @@ import { CardMaterialType } from '../card-material-type.enum';
 import { CreateCardDto } from '../dto/create-card.dto';
 
 export class CardMaterialTypeValidationPipe implements PipeTransform {
-  readonly allowedMaterialTypes = [
-    CardMaterialType.PRINTED,
-    CardMaterialType.AUDIO,
-    CardMaterialType.VIDEO,
-  ];
+  readonly allowedMaterialTypes = [CardMaterialType.PRINTED, CardMaterialType.AUDIO, CardMaterialType.VIDEO];
 
   /**
    * Checks the card material enum and transforms to uppercase
@@ -15,7 +11,6 @@ export class CardMaterialTypeValidationPipe implements PipeTransform {
    * @param value : string
    */
   transform(createCardDto: CreateCardDto) {
-
     if (createCardDto.cardtype) {
       if (!this.isMaterialValid(createCardDto.cardtype)) {
         throw new BadRequestException(`"${createCardDto.cardtype}" is an invalid material type`);
