@@ -1,0 +1,18 @@
+server:
+  ip: '0.0.0.0'
+  origin: '/blyberg\.net$/'
+
+db:
+  host: 'dev-docker.home.blyberg.net'
+  port: 3305
+  database: 'blybergnet'
+  username: 'blybergnet'
+  password: 'wCzWb3pC]li13q_K'
+  synchronize: false
+
+jwt:
+  secret: 't170$2e&bxPbv%3durVPasnjZxrcVwXz'
+
+nodemailer:
+  user: 'website@blyberg.net'
+  password: 'q6NSK29fcS%h&2CQDbd7FRY44YdFhEwa'

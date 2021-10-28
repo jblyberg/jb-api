@@ -1,5 +1,5 @@
 import { Card } from '../../../database/entities/card.entity';
-import { readdirSync } from 'fs';
+import { readdirSync } from 'node:fs';
 import { shuffle } from 'lodash';
 
 export class CatalogCardProperties {
@@ -15,7 +15,7 @@ export class CatalogCardProperties {
    * Builds out a new Card.
    */
   async createProperties(): Promise<boolean> {
-    let assigned: boolean = false;
+    let assigned = false;
 
     // Assign fandom card and fonts
     await this.assignCardSource();
@@ -45,7 +45,7 @@ export class CatalogCardProperties {
     const cardHandFontFolder = this.cardLibDirectory + '/fonts/hand/';
 
     // Grab hand fonts from directory and randomize
-    const handFonts = await shuffle(readdirSync(cardHandFontFolder)).slice(0, 3);
+    const handFonts = shuffle(readdirSync(cardHandFontFolder)).slice(0, 3);
 
     // Assign fonts
     this.card.font1 = handFonts[0].slice(0, -4);

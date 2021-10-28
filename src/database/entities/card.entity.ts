@@ -48,7 +48,7 @@ export class Card extends BaseEntity {
 
   createProperties() {
     const cardProperties = new CatalogCardProperties(this);
-    cardProperties.createProperties().then(completed => {
+    cardProperties.createProperties().then((completed) => {
       this.generated = completed;
     });
   }

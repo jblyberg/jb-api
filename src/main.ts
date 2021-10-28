@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
+import { CorsOptionsDelegate } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { AppModule } from './modules/app.module';
 import * as config from 'config';
 
@@ -8,17 +9,9 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
 
-  const corsOptionsDelegate: any = (req, callback) => {
-    let corsOptions: object;
-
-    // tslint:disable-next-line: prefer-conditional-expression
-    if (serverConfig.origin.indexOf(req.header('Origin')) !== -1) {
-      corsOptions = { origin: true };
-    } else {
-      corsOptions = { origin: false };
-    }
-
-    callback(null, corsOptions);
+  const corsOptionsDelegate: CorsOptionsDelegate<any> = (request, callback) => {
+    const corsOptions = serverConfig.origin.includes(request.header('Origin')) ? { origin: true } : { origin: false };
+    callback(undefined, corsOptions);
   };
 
   if (process.env.NODE_ENV === 'development') {
