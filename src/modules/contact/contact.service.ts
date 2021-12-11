@@ -19,7 +19,7 @@ export class ContactService {
     });
 
     const mailOptions = {
-      from: 'Blyberg.net Website',
+      from: 'Blyberg.net Website <website@home.blyberg.net>',
       to: 'john@blyberg.net',
       subject: 'New website contact message: ' + contactMessageDto.subject,
       html: `
