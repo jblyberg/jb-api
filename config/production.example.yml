@@ -1,9 +1,9 @@
 server:
   ip: '127.0.0.1'
-  origin: ['blyberg.net']
+  origin: '/blyberg\.net$/'
 
 db:
-  host: ['localhost']
+  host: 'localhost'
   username: 'dbusername'
   password: 'dbpassword'
   synchronize: false
@@ -12,5 +12,6 @@ jwt:
   secret: 'jwtsecret'
 
 nodemailer:
+  service: 'mailgun'
   user: 'someone@somewhere.net'
   password: 'emailpassword'
