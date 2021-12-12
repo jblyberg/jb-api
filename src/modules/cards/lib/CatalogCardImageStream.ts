@@ -4,26 +4,27 @@ import { Logger } from '@nestjs/common';
 import * as sizeOf from 'image-size';
 import * as pify from 'pify';
 import * as wrap from 'word-wrap';
+import { join } from 'node:path';
 
 /**
  * Generates a catalog card image from a card entity
  */
 export class CatalogCardImageStream {
   private card: Card;
-  private cardLibDirectory: string;
+  private assetsDir: string;
   private pngStream: PNGStream;
   private logger = new Logger('CatalogCardImageStream');
 
   constructor(card: Card) {
     this.card = card;
-    this.cardLibDirectory = __dirname;
+    this.assetsDir = join(__dirname, '..', 'assets');
   }
 
   async createCardStream(): Promise<PNGStream> {
     // Assign and register fonts
     await this.registerCardFonts();
 
-    const cardStockFolder = this.cardLibDirectory + '/cardstock/card';
+    const cardStockFolder = this.assetsDir + '/cardstock/card';
     const cardSource = cardStockFolder + this.card.cardtemplate + '.png';
 
     // Create the card canvas and context
@@ -133,8 +134,8 @@ export class CatalogCardImageStream {
    * If not, fonts are assigned to scribbles.
    */
   private async registerCardFonts() {
-    const cardBaseFontFolder = this.cardLibDirectory + '/fonts/base/';
-    const cardHandFontFolder = this.cardLibDirectory + '/fonts/hand/';
+    const cardBaseFontFolder = join(this.assetsDir, '/fonts/base/');
+    const cardHandFontFolder = join(this.assetsDir, '/fonts/hand/');
 
     // Register base fonts
     registerFont(cardBaseFontFolder + 'freesansbold.ttf', { family: 'freesansbold' });

@@ -1,14 +1,15 @@
 import { Card } from '../../../database/entities/card.entity';
 import { readdirSync } from 'node:fs';
 import { shuffle } from 'lodash';
+import { join } from 'node:path';
 
 export class CatalogCardProperties {
   private card: Card;
-  private cardLibDirectory: string;
+  private assetsDir: string;
 
   constructor(card: Card) {
     this.card = card;
-    this.cardLibDirectory = 'src/modules/cards/lib';
+    this.assetsDir = join(__dirname, '..', 'assets');
   }
 
   /**
@@ -42,7 +43,7 @@ export class CatalogCardProperties {
    * If not, fonts are assigned to scribbles.
    */
   private async assignCardFonts() {
-    const cardHandFontFolder = this.cardLibDirectory + '/fonts/hand/';
+    const cardHandFontFolder = join(this.assetsDir, '/fonts/hand/');
 
     // Grab hand fonts from directory and randomize
     const handFonts = shuffle(readdirSync(cardHandFontFolder)).slice(0, 3);
