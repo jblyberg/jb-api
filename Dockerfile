@@ -10,8 +10,6 @@ COPY package.json tsconfig.json tsconfig.build.json yarn.lock nest-cli.json ./
 COPY src/ src/
 COPY config/default.yml config/default.yml
 COPY config/production.yml config/production.yml
-#RUN apt-get update
-#RUN apt-get -y install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
 RUN yarn install
 RUN yarn build
 RUN rm -rf node_modules
