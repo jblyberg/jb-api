@@ -1,5 +1,5 @@
 import { Card } from '../../../database/entities/card.entity';
-import { createCanvas, loadImage, registerFont, PNGStream, NodeCanvasRenderingContext2D } from 'canvas';
+import { createCanvas, loadImage, registerFont, PNGStream, CanvasRenderingContext2D } from 'canvas';
 import { Logger } from '@nestjs/common';
 import * as sizeOf from 'image-size';
 import * as pify from 'pify';
@@ -61,7 +61,7 @@ export class CatalogCardImageStream {
     return this.pngStream;
   }
 
-  private writeTitle(context: NodeCanvasRenderingContext2D) {
+  private writeTitle(context: CanvasRenderingContext2D) {
     if (this.card.title) {
       context.fillStyle = '#000';
       context.font = '11px freemonobold';
@@ -70,7 +70,7 @@ export class CatalogCardImageStream {
     return this;
   }
 
-  private writeCardType(context: NodeCanvasRenderingContext2D) {
+  private writeCardType(context: CanvasRenderingContext2D) {
     if (this.card.cardtype) {
       const randomAngleFloat = Math.random() * (0.1 - 0.01) + 0.01 - 0.05;
       context.fillStyle = '#CA3433';
@@ -82,7 +82,7 @@ export class CatalogCardImageStream {
     return this;
   }
 
-  private writeCardCallnum(context: NodeCanvasRenderingContext2D) {
+  private writeCardCallnum(context: CanvasRenderingContext2D) {
     if (this.card.callnum) {
       context.fillStyle = '#CA3433';
       context.font = '10pt freemonobold';
@@ -91,7 +91,7 @@ export class CatalogCardImageStream {
     return this;
   }
 
-  private writeCardText(context: NodeCanvasRenderingContext2D) {
+  private writeCardText(context: CanvasRenderingContext2D) {
     if (this.card.cardtext) {
       context.fillStyle = '#000';
       context.font = '11px freemonobold';
@@ -100,7 +100,7 @@ export class CatalogCardImageStream {
     return this;
   }
 
-  private writeScribble1(context: NodeCanvasRenderingContext2D) {
+  private writeScribble1(context: CanvasRenderingContext2D) {
     if (this.card.scribble1) {
       context.font = '15px ' + this.card.font1;
       context.rotate(-0.3);
@@ -110,7 +110,7 @@ export class CatalogCardImageStream {
     return this;
   }
 
-  private writeScribble2(context: NodeCanvasRenderingContext2D) {
+  private writeScribble2(context: CanvasRenderingContext2D) {
     if (this.card.scribble2) {
       context.font = '12px ' + this.card.font2;
       context.fillText(this.card.scribble2, 85, 20);
@@ -118,7 +118,7 @@ export class CatalogCardImageStream {
     return this;
   }
 
-  private writeScribble3(context: NodeCanvasRenderingContext2D) {
+  private writeScribble3(context: CanvasRenderingContext2D) {
     if (this.card.scribble3) {
       context.font = '12px ' + this.card.font3;
       context.rotate(0.025);

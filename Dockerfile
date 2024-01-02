@@ -1,5 +1,9 @@
 # To build and publish:
 # docker build -t registry.home.blyberg.net/jb-api -t registry.home.blyberg.net/jb-api:1.0 .
+
+# On M1/2
+# docker buildx build --platform linux/amd64 --output type=docker -t registry.home.blyberg.net/jb-api -t registry.home.blyberg.net/jb-api:1.0 .
+
 # docker push registry.home.blyberg.net/jb-api; docker push registry.home.blyberg.net/jb-api:1.0
 
 # Builder Stage
@@ -9,7 +13,7 @@ RUN mkdir /app/config
 COPY package.json tsconfig.json tsconfig.build.json yarn.lock nest-cli.json ./
 COPY src/ src/
 COPY config/default.yml config/default.yml
-COPY config/production.yml config/production.yml
+#COPY config/production.yml config/production.yml
 RUN yarn install
 RUN yarn build
 RUN rm -rf node_modules
